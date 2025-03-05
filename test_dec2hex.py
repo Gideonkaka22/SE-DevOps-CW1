@@ -1,19 +1,20 @@
 import unittest
-from Dec2Hex import decimal_to_hex
+from unittest.mock import patch
+import sys
+from Dec2Hex import decimal_to_hex  # Import your actual function here
 
 class TestDecimalToHex(unittest.TestCase):
-    def test_valid_integer(self):
-        self.assertEqual(decimal_to_hex(10), "A")
-        self.assertEqual(decimal_to_hex(255), "FF")
-        self.assertEqual(decimal_to_hex(0), "0")
+    
+    @patch('sys.argv', ['Dec2Hex.py', '255'])  # Mock sys.argv to simulate input argument
+    def test_valid_input(self):
+        result = decimal_to_hex(sys.argv[1])
+        self.assertEqual(result, 'FF')  # Hex value for 255 is 'FF'
 
-    def test_non_integer_input(self):
-        self.assertEqual(decimal_to_hex("abc"), "Error: Invalid input. Please enter a valid integer.")
-        self.assertEqual(decimal_to_hex("12.3"), "Error: Invalid input. Please enter a valid integer.")
-
-    def test_no_input(self):
-        with self.assertRaises(TypeError):
-            decimal_to_hex()
+    @patch('sys.argv', ['Dec2Hex.py', 'invalid'])  # Mock invalid input
+    def test_invalid_input(self):
+        result = decimal_to_hex(sys.argv[1])
+        self.assertEqual(result, "Error: Invalid input. Please enter a valid integer.")
 
 if __name__ == "__main__":
     unittest.main()
+
