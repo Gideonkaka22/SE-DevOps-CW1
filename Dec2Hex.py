@@ -8,7 +8,7 @@ def decimal_to_hex(decimal_value):
         return "Error: Invalid input. Please enter a valid integer."
     except KeyboardInterrupt:
     print("\nProcess interrupted by user. Exiting...")
-    exit()
+    exit()
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
