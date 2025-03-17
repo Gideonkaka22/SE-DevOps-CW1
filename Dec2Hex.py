@@ -7,7 +7,7 @@ def decimal_to_hex(decimal_value):
     except ValueError:
         return "Error: Invalid input. Please enter a valid integer."
     except KeyboardInterrupt: #keyboard interupts
-    print("\nProcess interrupted by user. Exiting...")
+        print("\nProcess interrupted by user. Exiting...")
     exit()
 
 if __name__ == "__main__":
