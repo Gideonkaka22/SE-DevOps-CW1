@@ -6,6 +6,7 @@ def decimal_to_hex(decimal_value):
         return hex(decimal_value)[2:].upper()  # Convert to hex without '0x'
     except ValueError:
         return "Error: Invalid input. Please enter a valid integer."
+        #Testing Interrupt tests for expection handling
     except KeyboardInterrupt: #keyboard interupts
         print("\nProcess interrupted by user. Exiting...")
     exit()
