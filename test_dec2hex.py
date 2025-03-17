@@ -24,6 +24,45 @@ class TestDecimalToHex(unittest.TestCase):
     def test_zero_input(self):
         result = decimal_to_hex(sys.argv[1])
         self.assertEqual(result, '0')  # Expected output for 0 in hex
+        
+    @patch("builtins.input", side_effect=KeyboardInterrupt)
+    def test_keyboard_interrupt_during_input(self, mock_input):
+        """Simulate user pressing Ctrl+C when inputting a number"""
+        try:
+            decimal_to_hex(int(input("Enter a number: ")))
+        except KeyboardInterrupt:
+            result = "Process interrupted by user."
+        self.assertEqual(result, "Process interrupted by user.")
+
+    #Keyboard Interrupts Tests
+    @patch("builtins.input", side_effect=[10, KeyboardInterrupt])
+    def test_keyboard_interrupt_after_valid_input(self, mock_input):
+        """Simulate valid input followed by Ctrl+C"""
+        try:
+            result = decimal_to_hex(int(input("Enter a number: ")))  # First call: 10
+            self.assertEqual(result, "0xa")  # 10 → '0xa'
+
+            input("Enter another number: ")  # Second call triggers KeyboardInterrupt
+        except KeyboardInterrupt:
+            result = "Process interrupted during second input."
+        self.assertEqual(result, "Process interrupted during second input.")
+
+    @patch("builtins.input", side_effect=[KeyboardInterrupt, KeyboardInterrupt])
+    def test_multiple_keyboard_interrupts(self, mock_input):
+        """Simulate two consecutive Ctrl+C presses"""
+        try:
+            input("First input: ")  # Raises KeyboardInterrupt
+        except KeyboardInterrupt:
+            result = "First interruption detected."
+
+        self.assertEqual(result, "First interruption detected.")
+
+        try:
+            input("Second input: ")  # Raises KeyboardInterrupt again
+        except KeyboardInterrupt:
+            result = "Second interruption detected."
+
+        self.assertEqual(result, "Second interruption detected.")
 
 if __name__ == '__main__':
     unittest.main()
